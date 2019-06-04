@@ -15,7 +15,8 @@ import sqlite3 as sql
 class Scrapper():
     
     #Function to initialize instance variables    
-    def __init__(self, table_name, database_file, csv_file):
+    def __init__(self, table_name="imdbdata", database_file="imdbsqlfile.db",
+                 csv_file="imdbmovies.csv"):
         self.table_name = table_name
         self.database_file = database_file
         self.csv_file = csv_file
@@ -115,7 +116,7 @@ class Scrapper():
                 header = []
             
                 for x in range(int(size/2)):
-                    header.append(args[x]) 
+                    header.append(args[x])
             
                 #add header if first iteration
                 writer.writerow(header)
@@ -205,10 +206,7 @@ class Scrapper():
 if __name__ == "__main__":
     
     #Create an object of Scrapper class
-    database_file = "imdbsqlfile.db"
-    table_name = "imdbdata"
-    csv_file_name = "imdbmovies.csv"
-    imdb_scrapper = Scrapper(table_name, database_file, csv_file_name)
+    imdb_scrapper = Scrapper()
     
     website_link, tag, html_class, iterations,mode, header,\
     column_1, column_2, column_3, column_4 = imdb_scrapper.take_input()

@@ -194,7 +194,10 @@ class Scrapper():
 
 
     def default_column(self):
-        column_1 = column_2 = column_3 = column_4 = "default"
+        column_1 = "Rank"
+        column_2 = "Name"
+        column_3 = "Year"
+        column_4 = "Rating" 
         return column_1, column_2, column_3, column_4
         
 '''h3.lister-item-header'''

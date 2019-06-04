@@ -192,6 +192,11 @@ class Scrapper():
         return webpage_link, tag, html_class, iterations, mode, header,\
                 column_1, column_2, column_3, column_4
 
+
+    def default_column(self):
+        column_1 = column_2 = column_3 = column_4 = "default"
+        return column_1, column_2, column_3, column_4
+        
 '''h3.lister-item-header'''
 
 if __name__ == "__main__":

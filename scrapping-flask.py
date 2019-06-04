@@ -35,4 +35,4 @@ def movie_data_base(start, tag, html_class, iterations):
                            data2 = movie_name, data3 = movie_year,
                            data4 = movie_rating, size = sized)
 if __name__ == '__main__':
-   app.run()
+   app.run(host='0.0.0.0')

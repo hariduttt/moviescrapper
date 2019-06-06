@@ -28,11 +28,15 @@ def movie_data_base(start, tag, html_class, iterations):
     movie_year = imdb_scrapper.get_text_from_scrapped_data(scrapped_data)
     
     movie_rating = imdb_scrapper.scrap(web_url, "div",
-                                 "ratings-bar strong", iterations)
+                                       "ratings-bar strong", iterations)
+    
+    movie_links = imdb_scrapper.get_link(web_url, tag,
+                                         html_class, iterations)
     sized = len(movie_rank)
     
     return render_template("movie-data.html", data1 = movie_rank,
                            data2 = movie_name, data3 = movie_year,
-                           data4 = movie_rating, size = sized)
+                           data4 = movie_rating, size = sized,
+                           links = movie_links)
 if __name__ == '__main__':
-   app.run(host='0.0.0.0')
+   app.run(host='0.0.0.0', debug=True)

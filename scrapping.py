@@ -30,12 +30,23 @@ class Scrapper():
                                      "html.parser")
     
         scrapped_datalist = data.select(tag + "." + html_class)
-        
         scrapped_datalist_text = []
         for x in range(iterations):
             scrapped_datalist_text.append(scrapped_datalist[x].get_text())
 
         return scrapped_datalist_text
+    
+    def get_link(self, webpage_url, tag, html_class, iterations):
+        page = requests.get(webpage_url)
+        data = bs4.BeautifulSoup(page.content,
+                                     "html.parser")
+        scrapped_link = data.select(tag + "." + html_class + " a")
+        scrapped_link_list = []
+        for x in range(iterations):
+            scrapped_link_list.append("https://www.imdb.com"
+                                      + scrapped_link[x].get("href"))
+
+        return scrapped_link_list
                 
     
     #Function for database connection and defining a cursor for querying

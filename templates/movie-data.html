@@ -37,10 +37,10 @@
 		  <span class="dropdown" style="margin-left: 20px">
 			<button class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Sort By</button>
 		  	<div class="dropdown-menu">
-			  	<a class="dropdown-item" onclick="sorter()" href="#">Rank</a>
-			 	<a class="dropdown-item" onclick="sorter()" href="#">Name</a>
-			  	<a class="dropdown-item" onclick="sorter()" href="#">Year</a>
-			  	<a class="dropdown-item" onclick="sorter()" href="#">Rating</a>
+			  	<a class="dropdown-item" href="/movie-data/1/h3/lister-item-header/50/0">Rank</a>
+			 	<a class="dropdown-item" href="/movie-data/1/h3/lister-item-header/50/1">Name</a>
+			  	<a class="dropdown-item" href="/movie-data/1/h3/lister-item-header/50/2">Year</a>
+			  	<a class="dropdown-item" href="/movie-data/1/h3/lister-item-header/50/3">Rating</a>
 			</div>
 		  </span>	
 		  <br><br>
@@ -56,10 +56,10 @@
 			{% for x in range(size) %}
 			<tbody>
 				<tr>
-					<td> {{data1[x]}} </td>
-					<td style="text-align:left"> <a href="{{links[x]}}"> {{data2[x]}} </a></td>
-					<td> {{data3[x]}} </td>
-					<td> {{data4[x]}} </td>
+					<td> {{data[x][0]}} </td>
+					<td style="text-align:left"> <a href="{{data[x][4]}}"> {{data[x][1]}} </a></td>
+					<td> {{data[x][2]}} </td>
+					<td> {{data[x][3]}} </td>
 				</tr>
 			</tbody>
 			{% endfor %}		

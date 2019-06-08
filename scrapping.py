@@ -5,6 +5,7 @@ Created on Fri May 31 10:42:19 2019
 
 @author: haridutt
 """
+import json
 import requests
 import bs4 
 import csv
@@ -45,7 +46,7 @@ class Scrapper():
         for x in range(iterations):
             scrapped_link_list.append("https://www.imdb.com"
                                       + scrapped_link[x].get("href"))
-
+    
         return scrapped_link_list
                 
     
@@ -100,7 +101,7 @@ class Scrapper():
         #show data from sqllite file
         cursor.execute("SELECT * FROM " + self.table_name)
         fetched_data = cursor.fetchall()
-        print(fetched_data)
+        return fetched_data
         
 
     #Function to close database connection    
@@ -151,7 +152,19 @@ class Scrapper():
         df.to_csv(csv_file,
                   mode=mode, index=index)
         
+    
+    #Function to convert scrapped data into json format
+    def to_json(self, json_file, *args):
+        size = len(args)
+        movie_data_dictionary = {}
+        for value in range(int(size/2)):
+            movie_data_dictionary[args[value]] = args[value + int(size/2)]
+        movie_data_string = json.dumps(movie_data_dictionary)
         
+        with open(json_file,"w") as f:
+            f.write(movie_data_string)
+            
+            
     #Function to get readable text data from scrapped (html formatted) data
     def get_text_from_scrapped_data(self, scrapped_data):
         
@@ -230,15 +243,18 @@ if __name__ == "__main__":
     
     movie_rating = imdb_scrapper.scrap(website_link, "div",
                                  "ratings-bar strong", iterations)
-    imdb_scrapper.to_csv(mode, header, column_1, column_2, column_3,
-                         column_4, movie_rank, movie_name,
-                         movie_year, movie_rating)
-    database_object, cursor = imdb_scrapper.connect_database()
+    #imdb_scrapper.to_csv(mode, header, column_1, column_2, column_3,
+    #                     column_4, movie_rank, movie_name,
+    #                     movie_year, movie_rating)
+    imdb_scrapper.to_json("movie_data.json", "rank", "name", "year", "rating",
+                          movie_rank, movie_name, movie_year, movie_rating)
+    #database_object, cursor = imdb_scrapper.connect_database()
     
-    imdb_scrapper.drop_table(database_object, cursor)
-    imdb_scrapper.create_table(database_object, cursor, "rank INTEGER",
-                               "name TEXT", "year INTEGER", "rating FLOAT")
-    imdb_scrapper.insert_data(cursor, iterations, movie_rank, 
-                        movie_name, movie_year, movie_rating)
-    imdb_scrapper.show_data(cursor)
-    imdb_scrapper.close_database(cursor, database_object)
+    #imdb_scrapper.drop_table(database_object, cursor)
+    #imdb_scrapper.create_table(database_object, cursor, "rank INTEGER",
+    #                           "name TEXT", "year INTEGER", "rating FLOAT")
+    #imdb_scrapper.insert_data(cursor, iterations, movie_rank, 
+    #                    movie_name, movie_year, movie_rating)
+    #fetched_data = imdb_scrapper.show_data(cursor)
+    #print(fetched_data)
+    #imdb_scrapper.close_database(cursor, database_object)

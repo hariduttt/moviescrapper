@@ -3,6 +3,7 @@
 Created on Tue Jun  4 11:47:37 2019
 @author: haridutt
 """
+
 from scrapping import Scrapper
 from flask import Flask, render_template, request, json, redirect, url_for
 
@@ -17,6 +18,14 @@ def index():
 @app.route('/movie-data/<int:start>/<tag>/<html_class>/<int:iterations>/'\
            '<int:sorter>/', methods =['GET','POST'])
 def movie_data_base(start, tag, html_class, iterations, sorter):   
+    if(request.method == 'POST'):
+        response = app.response_class(
+                response = json.dumps(json.loads(open("movie_data.json","r").read())),
+                status = 200,
+                mimetype = "application/json"
+                )
+        return response
+    
     if(start == 1):
         web_url = "https://www.imdb.com/search/title?"\
                     "genres=drama&groups=top_250&sort=user_rating,desc"
@@ -44,24 +53,13 @@ def movie_data_base(start, tag, html_class, iterations, sorter):
     for x in range(sized):
         movie_rank[x] = int(movie_rank[x].split('.')[0])
         
-    movie_data_dictionary = {"rank":movie_rank, "name":movie_name,
-                             "year":movie_year,
-                             "rating":movie_rating, "link":movie_links}    
     imdb_scrapper.to_json("movie_data.json", "rank", "name", "year", "rating",
                           "link", movie_rank, movie_name, movie_year,
                           movie_rating, movie_links)
     collumn_list = list(zip(movie_rank, movie_name, movie_year,
-                 movie_rating, movie_links))
+                            movie_rating, movie_links))
     collumn_list.sort(key = lambda t:t[sorter])
-    
-    if(request.method == 'POST'):
-        response = app.response_class(
-                response = json.dumps(movie_data_dictionary),
-                status = 200,
-                mimetype = "application/json"
-                )
-        return response
-                
+            
     return render_template("movie-data.html", data = collumn_list,
                            size = sized)
 

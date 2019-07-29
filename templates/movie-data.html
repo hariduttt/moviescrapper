@@ -62,7 +62,7 @@
 		console.log("in main");
 		$(document).ready(function(){
 			console.log("in ready state");
-			$.post("?sorter="+string, function(json_responser){
+			$.get("movie_data.json/", function(json_responser){
 				var length = json_responser.name.length;
 				console.log(length);
 				var json_response = new Array(50);

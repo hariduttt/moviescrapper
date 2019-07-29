@@ -18,14 +18,7 @@ def index():
 @app.route('/movie-data/<int:start>/<tag>/<html_class>/<int:iterations>/'\
            '<int:sorter>/', methods =['GET','POST'])
 def movie_data_base(start, tag, html_class, iterations, sorter):   
-    if(request.method == 'POST'):
-        response = app.response_class(
-                response = json.dumps(json.loads(open("movie_data.json","r").read())),
-                status = 200,
-                mimetype = "application/json"
-                )
-        return response
-    
+
     if(start == 1):
         web_url = "https://www.imdb.com/search/title?"\
                     "genres=drama&groups=top_250&sort=user_rating,desc"
@@ -63,6 +56,18 @@ def movie_data_base(start, tag, html_class, iterations, sorter):
     return render_template("movie-data.html", data = collumn_list,
                            size = sized)
 
-
+@app.route('/movie-data/<int:start>/<tag>/<html_class>/'\
+           '<int:iterations>/<int:sorter>/movie_data.json/')
+def sort_by_json(start, tag, html_class, iterations, sorter):
+    print("In sorter")
+    response = app.response_class(
+                response = json.dumps(json.loads(open("movie_data.json",
+                                                      "r").read())),
+                status = 200,
+                mimetype = "application/json"
+                )
+    return response
+    
+    
 if __name__ == '__main__':
-   app.run(host='0.0.0.0', debug=True)
+   app.run(host='0.0.0.0', debug = False)
